@@ -8,8 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="3dp"
+        android:layout_height="0dp">
 
         <LinearLayout
             android:id="@+id/media_format_chooser"
@@ -148,4 +148,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:text="@string/start_recorder" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="end" />
 </RelativeLayout>

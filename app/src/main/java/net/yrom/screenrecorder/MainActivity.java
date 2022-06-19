@@ -72,6 +72,7 @@ public class MainActivity extends Activity {
     // members below will be initialized in onCreate()
     private MediaProjectionManager mMediaProjectionManager;
     private Button mButton;
+    private Button mEndButton;
     private ToggleButton mAudioToggle;
     private NamedSpinner mVieoResolution;
     private NamedSpinner mVideoFramerate;
@@ -325,8 +326,15 @@ public class MainActivity extends Activity {
     }
 
     private void bindViews() {
+
+        mEndButton = findViewById(R.id.end);
         mButton = findViewById(R.id.record_button);
-        mButton.setOnClickListener(this::onButtonClick);
+        //mButton.setOnClickListener(this::onButtonClick);
+
+        mButton.setOnClickListener(this::delayedOnButtonClick);
+
+
+        mEndButton.setOnClickListener(this::onEndActivity);
 
         mVideoCodec = findViewById(R.id.video_codec);
         mVieoResolution = findViewById(R.id.resolution);
@@ -368,19 +376,95 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void onButtonClick(View v) {
+
+
+
+    private void delayedOnButtonClick(View v) {
+        Log.e("main activity", "on button clicked");
+        // add delay function
+
+
+
+
+
+
+
+                // Stuff that updates the UI
+
+
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+
+
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+
+                                        // Stuff that updates the UI
+                                        Log.e("MainActivity", "starts in 5 seconds");
+                                        Log.e("main activity", "on button clicked");
+                                        if (hasPermissions()) {
+                                            if (mMediaProjection == null) {
+                                                requestMediaProjection();
+                                                Log.e("main activity", "2");
+                                            } else {
+                                                startCapturing(mMediaProjection);
+                                                Log.e("main activity", "3");
+                                            }
+                                        } else if (Build.VERSION.SDK_INT >= M) {
+                                            requestPermissions();
+                                            Log.e("main activity", "4");
+                                        } else {
+                                            toast(getString(R.string.no_permission_to_write_sd_ard));
+                                            Log.e("main activity", "5");
+                                        }
+
+                                    }
+                                });
+
+
+
+                            }
+                        },
+                        5000
+                );
+
+
+
+            }
+
+
+
+
+
+
+
+    private void onEndActivity(View v) {
         if (mRecorder != null) {
+            Log.e("main activity", "1");
             stopRecordingAndOpenFile(v.getContext());
-        } else if (hasPermissions()) {
+        }
+    }
+
+    private void onButtonClick(View v) {
+        Log.e("main activity", "on button clicked");
+          if (hasPermissions()) {
             if (mMediaProjection == null) {
                 requestMediaProjection();
+                Log.e("main activity", "2");
             } else {
                 startCapturing(mMediaProjection);
+                Log.e("main activity", "3");
             }
         } else if (Build.VERSION.SDK_INT >= M) {
             requestPermissions();
+            Log.e("main activity", "4");
         } else {
             toast(getString(R.string.no_permission_to_write_sd_ard));
+            Log.e("main activity", "5");
         }
     }
 
